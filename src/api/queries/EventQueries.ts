@@ -37,11 +37,8 @@ export const GET_EVENT = () => gql`
     sampleEvent(id: Int) {
       id
       name
-      event_type
-      permission
-      start_time
-      end_time
-      description
+      public_url
+      private_url
     }
   }
 `;
