@@ -2,16 +2,26 @@ import React, { useState } from 'react';
 import { ChakraProvider } from '@chakra-ui/react';
 import { ApolloProvider } from '@apollo/client';
 
+import client from './api/ApiClient';
+
 import HomePage from './components/pages/HomePage';
 
 import AuthContext from './contexts/AuthContext';
 
-import client from './api/ApiClient';
+import theme from './theme/theme';
 
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    localStorage.getItem('isAuthenticated') === 'true' || false,
+  const [hasVisited, setHasVisted] = useState(
+    localStorage.getItem('hasVisited') === 'true',
   );
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    localStorage.getItem('isAuthenticated') === 'true',
+  );
+
+  const continueAsGuest = () => {
+    localStorage.setItem('hasVisited', 'true');
+    setHasVisted(true);
+  };
 
   const login = (password: string, username: string) => {
     if (
@@ -31,9 +41,17 @@ const App = () => {
   };
 
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <ApolloProvider client={client}>
-        <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+        <AuthContext.Provider
+          value={{
+            continueAsGuest,
+            hasVisited,
+            isAuthenticated,
+            login,
+            logout,
+          }}
+        >
           <HomePage />
         </AuthContext.Provider>
       </ApolloProvider>
