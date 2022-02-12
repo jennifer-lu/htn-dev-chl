@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ChakraProvider } from '@chakra-ui/react';
 import { ApolloProvider } from '@apollo/client';
+import { useMediaQuery } from 'react-responsive';
 
 import client from './api/ApiClient';
 
@@ -11,12 +12,14 @@ import AuthContext from './contexts/AuthContext';
 import theme from './theme/theme';
 
 const App = () => {
-  const [hasVisited, setHasVisted] = useState(
+  const [hasVisited, setHasVisted] = useState<boolean>(
     localStorage.getItem('hasVisited') === 'true',
   );
-  const [isAuthenticated, setIsAuthenticated] = useState(
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(
     localStorage.getItem('isAuthenticated') === 'true',
   );
+
+  const isMobile = useMediaQuery({ query: `(max-width: 800px)` });
 
   const continueAsGuest = () => {
     localStorage.setItem('hasVisited', 'true');
@@ -52,7 +55,7 @@ const App = () => {
             logout,
           }}
         >
-          <HomePage />
+          <HomePage isMobile={isMobile} />
         </AuthContext.Provider>
       </ApolloProvider>
     </ChakraProvider>

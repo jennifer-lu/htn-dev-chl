@@ -1,6 +1,16 @@
-import React from 'react';
-import { Flex, Heading, Icon, Image, Link, Text } from '@chakra-ui/react';
-import { HiOutlineUserCircle } from 'react-icons/hi';
+import React, { useState } from 'react';
+import {
+  Flex,
+  Heading,
+  Icon,
+  IconButton,
+  Image,
+  Link,
+  Spacer,
+  Text,
+} from '@chakra-ui/react';
+import { FaUser } from 'react-icons/fa';
+import { MdExpandLess, MdExpandMore } from 'react-icons/md';
 
 import { TEvent, TSpeaker } from '../../api/queries/EventQueries';
 
@@ -8,9 +18,17 @@ export type EventCardProps = {
   event: TEvent;
   events: TEvent[];
   isAuthenticated: boolean;
+  isMobile: boolean;
 };
 
-const EventCard = ({ event, events, isAuthenticated }: EventCardProps) => {
+const EventCard = ({
+  event,
+  events,
+  isAuthenticated,
+  isMobile,
+}: EventCardProps) => {
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
+
   const snakeToSentenceCase = (snakeCaseString: string) => {
     const sentenceCaseString = snakeCaseString.replaceAll('_', ' ');
     return (
@@ -36,16 +54,27 @@ const EventCard = ({ event, events, isAuthenticated }: EventCardProps) => {
       borderRadius="10px"
       direction="column"
       grow="1"
-      height="400px"
-      margin="30px"
-      overflow="auto"
+      height={isMobile ? (isExpanded ? '' : '200px') : '500px'}
+      margin={isMobile ? '10px' : '30px'}
+      overflow={isMobile ? 'hidden' : 'auto'}
       padding="30px"
-      width="400px"
+      width="500px"
     >
-      <Heading as="h2" color="yellow.100" marginBottom="5px" size="lg">
-        {event.name}
-      </Heading>
-      <Text as="i" color="yellow.100">
+      <Flex>
+        <Heading as="h2" color="blue.100" marginBottom="5px" size="lg">
+          {event.name}
+        </Heading>
+        <Spacer />
+        {isMobile && (
+          <IconButton
+            aria-label="Expand"
+            background="transparent"
+            icon={<Icon as={isExpanded ? MdExpandLess : MdExpandMore} />}
+            onClick={() => setIsExpanded(!isExpanded)}
+          />
+        )}
+      </Flex>
+      <Text as="i" color="blue.100">
         {`${snakeToSentenceCase(event.event_type)} from ${unixToStringTime(
           event.start_time,
         )} to ${unixToStringTime(event.end_time)}`}
@@ -77,6 +106,7 @@ const EventCard = ({ event, events, isAuthenticated }: EventCardProps) => {
                 >
                   {speaker.profile_pic ? (
                     <Image
+                      alt={speaker.name}
                       borderRadius="full"
                       boxSize="50px"
                       marginBottom="5px"
@@ -84,11 +114,17 @@ const EventCard = ({ event, events, isAuthenticated }: EventCardProps) => {
                       src={speaker.profile_pic}
                     />
                   ) : (
-                    <Icon
-                      as={HiOutlineUserCircle}
-                      boxSize="50px"
-                      color="blue.100"
-                    />
+                    <Flex
+                      align="flex-end"
+                      backgroundColor="blue.100"
+                      borderRadius="full"
+                      color="blue.200"
+                      height="50px"
+                      justify="center"
+                      width="50px"
+                    >
+                      <Icon as={FaUser} boxSize="40px" />
+                    </Flex>
                   )}
                   <Text>{speaker.name}</Text>
                 </Flex>
@@ -105,8 +141,11 @@ const EventCard = ({ event, events, isAuthenticated }: EventCardProps) => {
           </Heading>
           <Flex direction="column">
             {events.map((relatedEvent: TEvent) => {
-              if (event.related_events.includes(relatedEvent.id)) {
-                return isAuthenticated || relatedEvent.public_url ? (
+              if (
+                event.related_events.includes(relatedEvent.id) &&
+                (isAuthenticated || relatedEvent.public_url)
+              ) {
+                return (
                   <Link
                     color="blue.50"
                     href={
@@ -115,11 +154,10 @@ const EventCard = ({ event, events, isAuthenticated }: EventCardProps) => {
                         : relatedEvent.public_url
                     }
                     isExternal
+                    key={`${event.id}-${relatedEvent.id}`}
                   >
                     {relatedEvent.name}
                   </Link>
-                ) : (
-                  <Text>{relatedEvent.name}</Text>
                 );
               }
               return null;

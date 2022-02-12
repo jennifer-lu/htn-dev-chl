@@ -1,15 +1,28 @@
 import React from 'react';
-import { Flex, Image, Link, Text } from '@chakra-ui/react';
+import { Flex, Icon, Image, Link, Text } from '@chakra-ui/react';
+import { FaGithub } from 'react-icons/fa';
 
-const Footer = () => {
+export type FooterProps = {
+  isMobile: boolean;
+};
+
+const Footer = ({ isMobile }: FooterProps) => {
   return (
     <Flex align="center" paddingBottom="40px">
-      <Text marginRight="20px">
-        Built by Jennifer Lu for Hack the North&apos;s 2022 Frontend Developer
-        Challenge
-      </Text>
+      {isMobile ? (
+        <Flex align="center" direction="column" marginRight="20px">
+          <Text>Built by Jennifer Lu for</Text>
+          <Text>Hack the North&apos;s 2022</Text>
+          <Text>Frontend Developer Challenge</Text>
+        </Flex>
+      ) : (
+        <Text marginRight="20px">
+          Built by Jennifer Lu for Hack the North&apos;s 2022 Frontend Developer
+          Challenge
+        </Text>
+      )}
       <Link href="https://github.com/jennifer-lu/htn-dev-chl" isExternal>
-        <Image boxSize="20px" src="images/github.png" />
+        <Icon as={FaGithub} boxSize="30px" color="blue.50" />
       </Link>
     </Flex>
   );

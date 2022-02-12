@@ -40,7 +40,7 @@ const WelcomeModal = ({ openLogin }: WelcomeModalProps) => {
           zIndex="2"
         >
           <Heading margin="50px 0px 5px 0px">Welcome to</Heading>
-          <Heading color="yellow.100">Hackathon Global</Heading>
+          <Heading color="blue.100">Hackathon Global</Heading>
           <Flex>
             <Flex
               align="center"
@@ -71,6 +71,7 @@ const WelcomeModal = ({ openLogin }: WelcomeModalProps) => {
           </Flex>
         </Flex>
         <Image
+          alt=""
           borderRadius="full"
           position="absolute"
           src="images/earth-modal.png"

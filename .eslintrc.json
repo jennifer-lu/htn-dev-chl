@@ -25,6 +25,7 @@
     "@typescript-eslint/no-use-before-define": "off",
     "camelcase": "off",
     "consistent-return": "off",
+    "no-nested-ternary": "off",
     "no-param-reassign": "off",
     "no-use-before-define": "off",
     "prettier/prettier": "error",

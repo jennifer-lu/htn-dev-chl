@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Flex, Heading, Image, useDisclosure } from '@chakra-ui/react';
 import { useQuery } from '@apollo/client';
+import Fuse from 'fuse.js';
 
 import { GET_EVENTS, TEvent } from '../../api/queries/EventQueries';
 
@@ -12,7 +13,11 @@ import WelcomeModal from '../homepage/WelcomeModal';
 
 import AuthContext from '../../contexts/AuthContext';
 
-const HomePage = () => {
+export type HomePageProps = {
+  isMobile: boolean;
+};
+
+const HomePage = ({ isMobile }: HomePageProps) => {
   const { isAuthenticated } = useContext(AuthContext);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -84,6 +89,48 @@ const HomePage = () => {
     testEvent4,
   ]);
 
+  const [results, setResults] = useState<TEvent[]>(events);
+
+  const handleSearch = (searchInput: string) => {
+    if (searchInput !== '') {
+      const options = {
+        keys: [
+          {
+            name: 'name',
+            weight: 1,
+          },
+          {
+            name: 'event_type',
+            weight: 0.5,
+          },
+          {
+            name: 'start_time',
+            weight: 0.2,
+          },
+          {
+            name: 'end_time',
+            weight: 0.2,
+          },
+          {
+            name: 'description',
+            weight: 0.5,
+          },
+          {
+            name: 'speakers',
+            weight: 0.5,
+          },
+        ],
+      };
+      const fuse = new Fuse(events, options);
+      const searchResults = fuse
+        .search(searchInput)
+        .map((searchResult) => searchResult.item);
+      setResults(searchResults);
+    } else {
+      setResults(events);
+    }
+  };
+
   // Sort events by start_time, and then by end_time
   const sortEvents = (a: TEvent, b: TEvent) => {
     if (a.start_time < b.start_time) {
@@ -97,7 +144,7 @@ const HomePage = () => {
     }
     return 1;
   };
-
+  //
   useQuery(GET_EVENTS(), {
     fetchPolicy: 'cache-and-network',
     onCompleted: (data) => {
@@ -105,6 +152,8 @@ const HomePage = () => {
       const eventsData = [...sampleEvents];
       eventsData.sort(sortEvents);
       setEvents(eventsData);
+      setResults(eventsData);
+      console.log('here');
     },
   });
 
@@ -113,22 +162,40 @@ const HomePage = () => {
   // bgGradient="linear(to-b, blue.300, #002338, #004159, #00616d, #00816f, #00a060, #70bc44, #cad022)"
 
   // localStorage.setItem('hasVisited', 'false');
+  //
+  // background: linear-gradient(90deg, #000314, #2a1f39, #602f56, #9e3d62, #d6555c, #fd7d47, #ffb325, #ffee00);
 
   return (
-    <Flex backgroundColor="blue.300" direction="column">
+    <Flex
+      backgroundColor="blue.300"
+      // backgroundImage="url(images/stars.gif)"
+      // bgGradient="linear(to-b, #000314, #000314, #000314, #000314, #000314, #2a1f39, #602f56, #9e3d62, #d6555c, #fd7d47, #ffb325, #ffee00)"
+      direction="column"
+    >
       <WelcomeModal openLogin={onOpen} />
-      <NavigationBar isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
+      <NavigationBar
+        handleSearch={handleSearch}
+        isMobile={isMobile}
+        isOpen={isOpen}
+        onOpen={onOpen}
+        onClose={onClose}
+      />
       <Flex align="center" direction="column" zIndex="2">
-        <Heading
-          as="h1"
-          margin="130px 0px 300px 0px"
-          size="4xl"
-          textTransform="uppercase"
+        {isMobile ? (
+          <Heading as="h2" margin="80px 0px 180px 0px" size="3xl">
+            Events
+          </Heading>
+        ) : (
+          <Heading as="h1" margin="120px 0px 320px 0px" size="4xl">
+            Events
+          </Heading>
+        )}
+        <Flex
+          padding={isMobile ? '10px 10px 30px 10px' : '30px 30px 10px 30px'}
+          width="100%"
+          wrap="wrap"
         >
-          Events
-        </Heading>
-        <Flex padding="30px 30px 10px 30px" width="100%" wrap="wrap">
-          {events.map((event: TEvent) => {
+          {results.map((event: TEvent) => {
             if (isAuthenticated || event.permission === 'public') {
               return (
                 <EventCard
@@ -136,6 +203,7 @@ const HomePage = () => {
                   events={events}
                   key={event.id}
                   isAuthenticated={isAuthenticated}
+                  isMobile={isMobile}
                 />
               );
             }
@@ -145,16 +213,29 @@ const HomePage = () => {
             <SpacerCard key={i} />
           ))}
         </Flex>
-        <Footer />
+        <Footer isMobile={isMobile} />
       </Flex>
-      <Image
-        height="500px"
-        objectFit="cover"
-        objectPosition="bottom"
-        position="absolute"
-        src="images/earth-background.png"
-        width="100%"
-      />
+      {isMobile ? (
+        <Image
+          alt=""
+          height="230px"
+          objectFit="cover"
+          objectPosition="bottom"
+          position="absolute"
+          src="images/earth-background.png"
+          width="100%"
+        />
+      ) : (
+        <Image
+          alt=""
+          height="500px"
+          objectFit="cover"
+          objectPosition="bottom"
+          position="absolute"
+          src="images/earth-background.png"
+          width="100%"
+        />
+      )}
     </Flex>
   );
 };
