@@ -2,7 +2,9 @@
 
 🌎 Hackathon Global web app for Hack the North's 2022 Frontend Developer Challenge.
 
-## Getting Started
+<img width="1792" alt="web-app" src="https://user-images.githubusercontent.com/49915445/153736687-f152df94-8af6-41a8-ae95-57a8d4ce0d5b.png">
+
+## Getting started
 
 ### Prerequisites
 
@@ -51,7 +53,7 @@ State management: Apollo Client, GraphQL
 
 Linters: ESLint, Prettier
 
-### Directory Structure
+### Directory structure
 
 ```bash
 .
@@ -104,3 +106,7 @@ Linters: ESLint, Prettier
 ├── tsconfig.json
 └── yarn.lock
 ```
+
+### Design
+
+[Figma wireframes](https://www.figma.com/file/K4mOPjIYXukgQQ5AgtRi83/htn-dev-chl?node-id=0%3A1)
