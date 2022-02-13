@@ -41,23 +41,15 @@ Note: You can use your own environment variables. Make a `.env` file and set the
 
 ### Stack
 
-Frontend JavaScript libraries:
-React
-TypeScript
+Frontend JavaScript libraries: React, TypeScript
 
-Component library:
-Chakra UI
+Component library: Chakra UI
 
-Search library:
-Fuse.js
+Search library: Fuse.js
 
-API query:
-Apollo Client
-GraphQL
+State management: Apollo Client, GraphQL
 
-Linter:
-ESLint
-Prettier
+Linters: ESLint, Prettier
 
 ### Directory Structure
 
