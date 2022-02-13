@@ -2,7 +2,7 @@
 
 🌎 Hackathon Global web app for Hack the North's 2022 Frontend Developer Challenge.
 
-<img width="1792" alt="web-app" src="https://user-images.githubusercontent.com/49915445/153736687-f152df94-8af6-41a8-ae95-57a8d4ce0d5b.png">
+<img width="1781" alt="web-app" src="https://user-images.githubusercontent.com/49915445/153736982-d65c6f84-9be6-4e65-95df-a5f4e5370519.png">
 
 ## Getting started
 
@@ -13,6 +13,8 @@ Verify yarn is installed:
 ```
 yarn --version
 ```
+
+[Instructions for installing yarn](https://classic.yarnpkg.com/lang/en/docs/install)
 
 ### Run the application
 
@@ -49,7 +51,7 @@ Component library: Chakra UI
 
 Search library: Fuse.js
 
-State management: Apollo Client, GraphQL
+API client libraries: Apollo Client, GraphQL
 
 Linters: ESLint, Prettier
 
