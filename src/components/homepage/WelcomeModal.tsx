@@ -8,6 +8,7 @@ import {
   ModalContent,
   ModalOverlay,
   Text,
+  useDisclosure,
 } from '@chakra-ui/react';
 
 import AuthContext from '../../contexts/AuthContext';
@@ -17,19 +18,19 @@ export type WelcomeModalProps = {
 };
 
 const WelcomeModal = ({ openLogin }: WelcomeModalProps) => {
-  const { continueAsGuest, hasVisited } = useContext(AuthContext);
+  const { isAuthenticated } = useContext(AuthContext);
 
-  const handleContinue = () => {
-    continueAsGuest();
-  };
+  const { isOpen, onClose } = useDisclosure({
+    defaultIsOpen: !isAuthenticated,
+  });
 
   const handleLogin = () => {
-    continueAsGuest();
+    onClose();
     openLogin();
   };
 
   return (
-    <Modal autoFocus={false} isCentered isOpen={!hasVisited} onClose={() => {}}>
+    <Modal autoFocus={false} isCentered isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent backgroundColor="clear.100" borderRadius="full">
         <Flex
@@ -53,7 +54,9 @@ const WelcomeModal = ({ openLogin }: WelcomeModalProps) => {
               <Text marginBottom="30px" textAlign="center">
                 Login as a hacker to view all events
               </Text>
-              <Button onClick={handleLogin}>Login</Button>
+              <Button aria-label="Login" onClick={handleLogin}>
+                Login
+              </Button>
             </Flex>
             <Flex
               align="center"
@@ -66,12 +69,14 @@ const WelcomeModal = ({ openLogin }: WelcomeModalProps) => {
               <Text marginBottom="30px" textAlign="center">
                 Continue as a guest to view public events
               </Text>
-              <Button onClick={handleContinue}>Continue</Button>
+              <Button aria-label="Continue" onClick={onClose}>
+                Continue
+              </Button>
             </Flex>
           </Flex>
         </Flex>
         <Image
-          alt=""
+          alt="Earth"
           borderRadius="full"
           position="absolute"
           src="images/earth-modal.png"

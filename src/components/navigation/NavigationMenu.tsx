@@ -1,15 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
-  CloseButton,
-  Flex,
-  Heading,
-  Icon,
   IconButton,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
-  Spacer,
 } from '@chakra-ui/react';
 import { MdMenu } from 'react-icons/md';
 
@@ -29,13 +24,11 @@ const NavigationMenu = ({
   onClose,
   onOpen,
 }: NavigationMenuProps) => {
-  const [input, setInput] = useState<string>('');
-
   return (
     <Menu closeOnSelect={false}>
       <MenuButton
+        aria-label="Menu"
         as={IconButton}
-        aria-label="Options"
         icon={<MdMenu />}
         variant="outline"
       />
@@ -44,7 +37,7 @@ const NavigationMenu = ({
           <SearchBar handleSearch={handleSearch} />
         </MenuItem>
         <MenuItem>
-          <LoginComponent isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
+          <LoginComponent isOpen={isOpen} onClose={onClose} onOpen={onOpen} />
         </MenuItem>
       </MenuList>
     </Menu>

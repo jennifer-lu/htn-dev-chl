@@ -1,14 +1,5 @@
 import { gql } from '@apollo/client';
 
-export type TEventType = 'workshop' | 'activity' | 'tech_talk';
-
-export type TPermission = 'public' | 'private';
-
-export type TSpeaker = {
-  name: string;
-  profile_pic?: string; // a url to an image
-};
-
 export type TEvent = {
   id: number;
   name: string;
@@ -26,22 +17,14 @@ export type TEvent = {
   related_events: number[]; // a list ids corresponding to related events
 };
 
-export type EventResponse = TEvent;
+export type TEventType = 'workshop' | 'activity' | 'tech_talk';
 
-export type EventsResponse = TEvent[];
+export type TPermission = 'public' | 'private';
 
-// queries a specific sampleEvent by id on a subset of all fields
-// returns TEvent
-export const GET_EVENT = () => gql`
-  query GetEvent {
-    sampleEvent(id: Int) {
-      id
-      name
-      public_url
-      private_url
-    }
-  }
-`;
+export type TSpeaker = {
+  name: string;
+  profile_pic?: string; // a url to an image
+};
 
 // queries all sampleEvents on all fields
 // returns TEvent[]

@@ -1,34 +1,35 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Flex,
   Heading,
   Icon,
   IconButton,
-  Image,
   Link,
   Spacer,
   Text,
 } from '@chakra-ui/react';
-import { FaUser } from 'react-icons/fa';
 import { MdExpandLess, MdExpandMore } from 'react-icons/md';
 
-import { TEvent, TSpeaker } from '../../api/queries/EventQueries';
+import { TEvent } from '../../api/queries/EventQueries';
+
+import SpeakerList from './SpeakerList';
+import RelatedEventList from './RelatedEventList';
+
+import AuthContext from '../../contexts/AuthContext';
+import DeviceContext from '../../contexts/DeviceContext';
 
 export type EventCardProps = {
   event: TEvent;
   events: TEvent[];
-  isAuthenticated: boolean;
-  isMobile: boolean;
 };
 
-const EventCard = ({
-  event,
-  events,
-  isAuthenticated,
-  isMobile,
-}: EventCardProps) => {
+const EventCard = ({ event, events }: EventCardProps) => {
+  const { isAuthenticated } = useContext(AuthContext);
+  const { isMobile } = useContext(DeviceContext);
+
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
 
+  // Convert string from snake case to sentence case
   const snakeToSentenceCase = (snakeCaseString: string) => {
     const sentenceCaseString = snakeCaseString.replaceAll('_', ' ');
     return (
@@ -36,6 +37,7 @@ const EventCard = ({
     );
   };
 
+  // Convert number from unix time to string time
   const unixToStringTime = (unixTime: number) => {
     const stringTime = new Date(unixTime * 1000);
     return stringTime.toLocaleTimeString('en-us', {
@@ -48,7 +50,7 @@ const EventCard = ({
     });
   };
 
-  return (
+  return isAuthenticated || event.permission === 'public' ? (
     <Flex
       backgroundColor="blue.200"
       borderRadius="10px"
@@ -90,83 +92,14 @@ const EventCard = ({
         </Link>
       )}
       {event.description && <Text>{event.description}</Text>}
-      {event.speakers.length > 0 && (
-        <Flex direction="column">
-          <Heading as="h3" margin="20px 0px 10px 0px" size="md">
-            Speakers
-          </Heading>
-          <Flex>
-            {event.speakers.map((speaker: TSpeaker) => {
-              return (
-                <Flex
-                  align="center"
-                  direction="column"
-                  key={`${event.id}-${speaker.name}`}
-                  marginRight="10px"
-                >
-                  {speaker.profile_pic ? (
-                    <Image
-                      alt={speaker.name}
-                      borderRadius="full"
-                      boxSize="50px"
-                      marginBottom="5px"
-                      objectFit="cover"
-                      src={speaker.profile_pic}
-                    />
-                  ) : (
-                    <Flex
-                      align="flex-end"
-                      backgroundColor="blue.100"
-                      borderRadius="full"
-                      color="blue.200"
-                      height="50px"
-                      justify="center"
-                      width="50px"
-                    >
-                      <Icon as={FaUser} boxSize="40px" />
-                    </Flex>
-                  )}
-                  <Text>{speaker.name}</Text>
-                </Flex>
-              );
-            })}
-          </Flex>
-        </Flex>
-      )}
-
-      {event.related_events.length > 0 && (
-        <Flex direction="column">
-          <Heading as="h3" margin="20px 0px 10px 0px" size="md">
-            Related Events
-          </Heading>
-          <Flex direction="column">
-            {events.map((relatedEvent: TEvent) => {
-              if (
-                event.related_events.includes(relatedEvent.id) &&
-                (isAuthenticated || relatedEvent.public_url)
-              ) {
-                return (
-                  <Link
-                    color="blue.50"
-                    href={
-                      isAuthenticated
-                        ? relatedEvent.private_url
-                        : relatedEvent.public_url
-                    }
-                    isExternal
-                    key={`${event.id}-${relatedEvent.id}`}
-                  >
-                    {relatedEvent.name}
-                  </Link>
-                );
-              }
-              return null;
-            })}
-          </Flex>
-        </Flex>
-      )}
+      <SpeakerList eventId={event.id} speakers={event.speakers} />
+      <RelatedEventList
+        eventId={event.id}
+        events={events}
+        relatedEvents={event.related_events}
+      />
     </Flex>
-  );
+  ) : null;
 };
 
 export default EventCard;

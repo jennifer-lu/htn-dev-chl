@@ -11,12 +11,12 @@ const theme = extendTheme({
     Heading,
   },
   config: {
-    useSystemColorMode: false,
     initialColorMode: 'dark',
+    useSystemColorMode: false,
   },
   fonts: {
-    heading: `"Open Sans"`,
     body: `"Open Sans"`,
+    heading: `"Open Sans"`,
   },
 });
 

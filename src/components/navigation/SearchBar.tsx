@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
 import {
-  Button,
   CloseButton,
-  Flex,
-  Heading,
   Icon,
   Input,
   InputGroup,
   InputLeftElement,
   InputRightElement,
-  Spacer,
 } from '@chakra-ui/react';
 import { MdSearch } from 'react-icons/md';
 
@@ -31,25 +27,23 @@ const SearchBar = ({ handleSearch }: SearchBarProps) => {
   };
 
   return (
-    <Flex marginRight="20px">
-      <InputGroup>
-        <InputLeftElement>
-          <Icon as={MdSearch} />
-        </InputLeftElement>
-        <Input
-          borderColor="white.100"
-          errorBorderColor="red.100"
-          focusBorderColor="white.100"
-          onChange={(e) => handleChange(e.target.value)}
-          onClick={(e) => e.stopPropagation()}
-          value={input}
-          width="200px"
-        />
-        <InputRightElement>
-          <CloseButton aria-label="Clear" onClick={handleClear} />
-        </InputRightElement>
-      </InputGroup>
-    </Flex>
+    <InputGroup>
+      <InputLeftElement>
+        <Icon aria-label="Search" as={MdSearch} />
+      </InputLeftElement>
+      <Input
+        aria-label="Search"
+        borderColor="white.100"
+        focusBorderColor="white.100"
+        onChange={(e) => handleChange(e.target.value)}
+        onClick={(e) => e.stopPropagation()}
+        value={input}
+        width="200px"
+      />
+      <InputRightElement>
+        <CloseButton aria-label="Clear search" onClick={handleClear} />
+      </InputRightElement>
+    </InputGroup>
   );
 };
 

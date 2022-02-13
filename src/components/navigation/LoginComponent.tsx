@@ -15,6 +15,7 @@ import {
 } from '@chakra-ui/react';
 
 import AuthContext from '../../contexts/AuthContext';
+import DeviceContext from '../../contexts/DeviceContext';
 
 export type LoginComponentProps = {
   isOpen: boolean;
@@ -24,6 +25,7 @@ export type LoginComponentProps = {
 
 const LoginComponent = ({ isOpen, onClose, onOpen }: LoginComponentProps) => {
   const { isAuthenticated, login, logout } = useContext(AuthContext);
+  const { isMobile } = useContext(DeviceContext);
 
   const [authenticationError, setAuthenticationError] = useState<boolean>(
     false,
@@ -31,7 +33,7 @@ const LoginComponent = ({ isOpen, onClose, onOpen }: LoginComponentProps) => {
   const [password, setPassword] = useState<string>('');
   const [username, setUsername] = useState<string>('');
 
-  const onSubmit = () => {
+  const handleSubmit = () => {
     try {
       login(password, username);
       onClose();
@@ -43,7 +45,7 @@ const LoginComponent = ({ isOpen, onClose, onOpen }: LoginComponentProps) => {
   };
 
   return (
-    <Flex>
+    <Flex marginLeft={isMobile ? '' : '20px'}>
       <Modal autoFocus={false} isCentered isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent backgroundColor="clear.100" borderRadius="full">
@@ -51,7 +53,7 @@ const LoginComponent = ({ isOpen, onClose, onOpen }: LoginComponentProps) => {
             <Flex align="center" margin="60px 0px 30px 0px">
               <Heading margin="0px 40px 0px 60px">Login</Heading>
               <CloseButton
-                aria-label="Clear"
+                aria-label="Close"
                 color="white.100"
                 onClick={onClose}
               />
@@ -63,6 +65,7 @@ const LoginComponent = ({ isOpen, onClose, onOpen }: LoginComponentProps) => {
             >
               <FormLabel htmlFor="username">Username</FormLabel>
               <Input
+                aria-label="Username"
                 borderColor="white.100"
                 errorBorderColor="red.100"
                 focusBorderColor="white.100"
@@ -81,6 +84,7 @@ const LoginComponent = ({ isOpen, onClose, onOpen }: LoginComponentProps) => {
             >
               <FormLabel htmlFor="password">Password</FormLabel>
               <Input
+                aria-label="Password"
                 borderColor="white.100"
                 errorBorderColor="red.100"
                 focusBorderColor="white.100"
@@ -99,12 +103,16 @@ const LoginComponent = ({ isOpen, onClose, onOpen }: LoginComponentProps) => {
                 <Flex height="25px" />
               )}
             </FormControl>
-            <Button marginBottom="60px" onClick={onSubmit}>
-              Submit
+            <Button
+              aria-label="Login"
+              marginBottom="60px"
+              onClick={handleSubmit}
+            >
+              Login
             </Button>
           </Flex>
           <Image
-            alt=""
+            alt="Earth"
             borderRadius="full"
             position="absolute"
             src="images/earth-modal.png"
@@ -112,6 +120,7 @@ const LoginComponent = ({ isOpen, onClose, onOpen }: LoginComponentProps) => {
         </ModalContent>
       </Modal>
       <Button
+        aria-label={isAuthenticated ? 'Logout' : 'Login'}
         onClick={isAuthenticated ? logout : onOpen}
         variant="whiteOutline"
       >

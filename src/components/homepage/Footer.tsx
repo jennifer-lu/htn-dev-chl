@@ -1,12 +1,12 @@
-import React from 'react';
-import { Flex, Icon, Image, Link, Text } from '@chakra-ui/react';
+import React, { useContext } from 'react';
+import { Flex, Icon, Link, Text } from '@chakra-ui/react';
 import { FaGithub } from 'react-icons/fa';
 
-export type FooterProps = {
-  isMobile: boolean;
-};
+import DeviceContext from '../../contexts/DeviceContext';
 
-const Footer = ({ isMobile }: FooterProps) => {
+const Footer = () => {
+  const { isMobile } = useContext(DeviceContext);
+
   return (
     <Flex align="center" paddingBottom="40px">
       {isMobile ? (
@@ -22,7 +22,12 @@ const Footer = ({ isMobile }: FooterProps) => {
         </Text>
       )}
       <Link href="https://github.com/jennifer-lu/htn-dev-chl" isExternal>
-        <Icon as={FaGithub} boxSize="30px" color="blue.50" />
+        <Icon
+          aria-label="Github"
+          as={FaGithub}
+          boxSize="30px"
+          color="blue.50"
+        />
       </Link>
     </Flex>
   );
