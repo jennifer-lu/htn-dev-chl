@@ -4,6 +4,7 @@ import { Flex, Heading, Link } from '@chakra-ui/react';
 import { TEvent } from '../../api/queries/EventQueries';
 
 import AuthContext from '../../contexts/AuthContext';
+import ColorModeContext from '../../contexts/ColorModeContext';
 
 export type RelatedEventListProps = {
   eventId: number;
@@ -17,6 +18,7 @@ const RelatedEventList = ({
   relatedEvents,
 }: RelatedEventListProps) => {
   const { isAuthenticated } = useContext(AuthContext);
+  const { isDark } = useContext(ColorModeContext);
 
   return relatedEvents.length > 0 ? (
     <Flex direction="column">
@@ -31,7 +33,7 @@ const RelatedEventList = ({
           ) {
             return (
               <Link
-                color="blue.50"
+                color={isDark ? 'blue.50' : 'purple.200'}
                 href={isAuthenticated ? event.private_url : event.public_url}
                 isExternal
                 key={`${eventId}-${event.id}`}

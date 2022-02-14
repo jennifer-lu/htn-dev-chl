@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react';
 
 import AuthContext from '../../contexts/AuthContext';
+import ColorModeContext from '../../contexts/ColorModeContext';
 
 export type WelcomeModalProps = {
   openLogin: () => void;
@@ -19,6 +20,7 @@ export type WelcomeModalProps = {
 
 const WelcomeModal = ({ openLogin }: WelcomeModalProps) => {
   const { isAuthenticated } = useContext(AuthContext);
+  const { isDark } = useContext(ColorModeContext);
 
   const { isOpen, onClose } = useDisclosure({
     defaultIsOpen: !isAuthenticated,
@@ -41,7 +43,9 @@ const WelcomeModal = ({ openLogin }: WelcomeModalProps) => {
           zIndex="2"
         >
           <Heading margin="50px 0px 5px 0px">Welcome to</Heading>
-          <Heading color="blue.100">Hackathon Global</Heading>
+          <Heading color={isDark ? 'blue.100' : 'purple.300'}>
+            Hackathon Global
+          </Heading>
           <Flex>
             <Flex
               align="center"
@@ -54,7 +58,11 @@ const WelcomeModal = ({ openLogin }: WelcomeModalProps) => {
               <Text marginBottom="30px" textAlign="center">
                 Login as a hacker to view all events
               </Text>
-              <Button aria-label="Login" onClick={handleLogin}>
+              <Button
+                aria-label="Login"
+                onClick={handleLogin}
+                variant={isDark ? 'whiteOutline' : 'purpleOutline'}
+              >
                 Login
               </Button>
             </Flex>
@@ -69,7 +77,11 @@ const WelcomeModal = ({ openLogin }: WelcomeModalProps) => {
               <Text marginBottom="30px" textAlign="center">
                 Continue as a guest to view public events
               </Text>
-              <Button aria-label="Continue" onClick={onClose}>
+              <Button
+                aria-label="Continue"
+                onClick={onClose}
+                variant={isDark ? 'whiteOutline' : 'purpleOutline'}
+              >
                 Continue
               </Button>
             </Flex>
@@ -79,7 +91,11 @@ const WelcomeModal = ({ openLogin }: WelcomeModalProps) => {
           alt="Earth"
           borderRadius="full"
           position="absolute"
-          src="images/earth-modal.png"
+          src={
+            isDark
+              ? 'images/earth-modal-dark.png'
+              : 'images/earth-modal-light.png'
+          }
         />
       </ModalContent>
     </Modal>

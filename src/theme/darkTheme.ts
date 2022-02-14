@@ -18,6 +18,14 @@ const theme = extendTheme({
     body: `"Open Sans"`,
     heading: `"Open Sans"`,
   },
+  styles: {
+    global: {
+      body: {
+        backgroundColor: 'blue.300',
+        color: 'white.100',
+      },
+    },
+  },
 });
 
 export default theme;

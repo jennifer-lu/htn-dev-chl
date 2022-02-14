@@ -16,6 +16,7 @@ import SpeakerList from './SpeakerList';
 import RelatedEventList from './RelatedEventList';
 
 import AuthContext from '../../contexts/AuthContext';
+import ColorModeContext from '../../contexts/ColorModeContext';
 import DeviceContext from '../../contexts/DeviceContext';
 
 export type EventCardProps = {
@@ -25,6 +26,7 @@ export type EventCardProps = {
 
 const EventCard = ({ event, events }: EventCardProps) => {
   const { isAuthenticated } = useContext(AuthContext);
+  const { isDark } = useContext(ColorModeContext);
   const { isMobile } = useContext(DeviceContext);
 
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
@@ -52,7 +54,7 @@ const EventCard = ({ event, events }: EventCardProps) => {
 
   return isAuthenticated || event.permission === 'public' ? (
     <Flex
-      backgroundColor="blue.200"
+      backgroundColor={isDark ? 'blue.200' : 'purple.50'}
       borderRadius="10px"
       direction="column"
       grow="1"
@@ -63,7 +65,12 @@ const EventCard = ({ event, events }: EventCardProps) => {
       width="500px"
     >
       <Flex>
-        <Heading as="h2" color="blue.100" marginBottom="5px" size="lg">
+        <Heading
+          as="h2"
+          color={isDark ? 'blue.100' : 'purple.300'}
+          marginBottom="5px"
+          size="lg"
+        >
           {event.name}
         </Heading>
         <Spacer />
@@ -73,17 +80,18 @@ const EventCard = ({ event, events }: EventCardProps) => {
             background="transparent"
             icon={<Icon as={isExpanded ? MdExpandLess : MdExpandMore} />}
             onClick={() => setIsExpanded(!isExpanded)}
+            title="Expand"
           />
         )}
       </Flex>
-      <Text as="i" color="blue.100">
+      <Text as="i" color={isDark ? 'blue.100' : 'purple.300'}>
         {`${snakeToSentenceCase(event.event_type)} from ${unixToStringTime(
           event.start_time,
         )} to ${unixToStringTime(event.end_time)}`}
       </Text>
       {(isAuthenticated || event.public_url) && (
         <Link
-          color="blue.50"
+          color={isDark ? 'blue.50' : 'purple.200'}
           href={isAuthenticated ? event.private_url : event.public_url}
           isExternal
           margin="10px 0px"

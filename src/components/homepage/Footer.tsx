@@ -2,9 +2,11 @@ import React, { useContext } from 'react';
 import { Flex, Icon, Link, Text } from '@chakra-ui/react';
 import { FaGithub } from 'react-icons/fa';
 
+import ColorModeContext from '../../contexts/ColorModeContext';
 import DeviceContext from '../../contexts/DeviceContext';
 
 const Footer = () => {
+  const { isDark } = useContext(ColorModeContext);
   const { isMobile } = useContext(DeviceContext);
 
   return (
@@ -21,12 +23,17 @@ const Footer = () => {
           Challenge
         </Text>
       )}
-      <Link href="https://github.com/jennifer-lu/htn-dev-chl" isExternal>
+      <Link
+        href="https://github.com/jennifer-lu/htn-dev-chl"
+        isExternal
+        marginTop="5px"
+      >
         <Icon
-          aria-label="Github"
+          aria-label="GitHub"
           as={FaGithub}
           boxSize="30px"
-          color="blue.50"
+          color={isDark ? 'blue.50' : 'purple.200'}
+          title="GitHub"
         />
       </Link>
     </Flex>

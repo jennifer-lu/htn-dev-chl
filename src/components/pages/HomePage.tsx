@@ -11,9 +11,11 @@ import SpacerCard from '../homepage/SpacerCard';
 import WelcomeModal from '../homepage/WelcomeModal';
 import NavigationBar from '../navigation/NavigationBar';
 
+import ColorModeContext from '../../contexts/ColorModeContext';
 import DeviceContext from '../../contexts/DeviceContext';
 
 const HomePage = () => {
+  const { isDark } = useContext(ColorModeContext);
   const { isMobile } = useContext(DeviceContext);
 
   const { isOpen, onClose, onOpen } = useDisclosure();
@@ -90,7 +92,10 @@ const HomePage = () => {
   });
 
   return (
-    <Flex backgroundColor="blue.300" direction="column">
+    <Flex
+      backgroundColor={isDark ? 'blue.300' : 'purple.100'}
+      direction="column"
+    >
       <WelcomeModal openLogin={onOpen} />
       <NavigationBar
         handleSearch={handleSearch}
@@ -100,11 +105,11 @@ const HomePage = () => {
       />
       <Flex align="center" direction="column" zIndex="2">
         {isMobile ? (
-          <Heading as="h2" margin="80px 0px 180px 0px" size="3xl">
+          <Heading as="h2" margin="70px 0px 180px 20px" size="3xl">
             Events
           </Heading>
         ) : (
-          <Heading as="h1" margin="120px 0px 320px 0px" size="4xl">
+          <Heading as="h1" margin="120px 0px 320px 20px" size="4xl">
             Events
           </Heading>
         )}
@@ -119,6 +124,7 @@ const HomePage = () => {
               <EventCard event={event} events={events} key={event.id} />
             ))}
             {[...Array(10)].map((element, i) => (
+              // eslint-disable-next-line react/no-array-index-key
               <SpacerCard key={i} />
             ))}
           </Flex>
@@ -129,7 +135,7 @@ const HomePage = () => {
             minHeight={isMobile ? 'calc(100vh - 460px)' : 'calc(100vh - 670px)'}
             size="md"
           >
-            No matching events.
+            No events found.
           </Heading>
         )}
         <Footer />
@@ -140,7 +146,11 @@ const HomePage = () => {
         objectFit="cover"
         objectPosition="bottom"
         position="absolute"
-        src="images/earth-background.png"
+        src={
+          isDark
+            ? 'images/earth-background-dark.png'
+            : 'images/earth-background-light.png'
+        }
         width="100%"
       />
     </Flex>

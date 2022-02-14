@@ -1,10 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Flex, Heading, Spacer } from '@chakra-ui/react';
 
+import ColorModeComponent from './ColorModeComponent';
 import LoginComponent from './LoginComponent';
 import NavigationMenu from './NavigationMenu';
 import SearchBar from './SearchBar';
 
+import ColorModeContext from '../../contexts/ColorModeContext';
 import DeviceContext from '../../contexts/DeviceContext';
 
 export type NavigationBarProps = {
@@ -20,17 +22,18 @@ const NavigationBar = ({
   onClose,
   onOpen,
 }: NavigationBarProps) => {
+  const { isDark } = useContext(ColorModeContext);
   const { isMobile } = useContext(DeviceContext);
 
   const [isOpaque, setIsOpaque] = useState<boolean>(
-    isMobile ? window.pageYOffset > 200 : window.pageYOffset > 500,
+    isMobile ? window.pageYOffset > 230 : window.pageYOffset > 500,
   );
 
   // Adjust navigation bar opacity based on scroll offset
   useEffect(() => {
     const onScroll = () => {
       setIsOpaque(
-        isMobile ? window.pageYOffset > 200 : window.pageYOffset > 500,
+        isMobile ? window.pageYOffset > 230 : window.pageYOffset > 500,
       );
     };
     window.removeEventListener('scroll', onScroll);
@@ -41,8 +44,14 @@ const NavigationBar = ({
   return (
     <Flex
       align="center"
-      backgroundColor={isOpaque ? 'blue.300' : ''}
-      boxShadow={isOpaque ? `0px 0px 12px 2px #000314` : ''}
+      backgroundColor={isOpaque ? (isDark ? 'blue.300' : 'purple.100') : ''}
+      boxShadow={
+        isOpaque
+          ? isDark
+            ? `0px 0px 12px 2px #000314`
+            : `0px 0px 12px 2px #B6BDFF`
+          : ''
+      }
       height="72px"
       padding="0px 30px"
       position="fixed"
@@ -63,6 +72,7 @@ const NavigationBar = ({
       ) : (
         <Flex>
           <SearchBar handleSearch={handleSearch} />
+          <ColorModeComponent />
           <LoginComponent isOpen={isOpen} onClose={onClose} onOpen={onOpen} />
         </Flex>
       )}

@@ -8,13 +8,18 @@ import client from './api/ApiClient';
 import HomePage from './components/pages/HomePage';
 
 import AuthContext from './contexts/AuthContext';
+import ColorModeContext from './contexts/ColorModeContext';
 import DeviceContext from './contexts/DeviceContext';
 
-import theme from './theme/theme';
+import darkTheme from './theme/darkTheme';
+import lightTheme from './theme/lightTheme';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(
     localStorage.getItem('isAuthenticated') === 'true',
+  );
+  const [isDark, setIsDark] = useState<boolean>(
+    localStorage.getItem('isDark') === 'true',
   );
 
   const isMobile = useMediaQuery({ query: `(max-width: 800px)` });
@@ -36,13 +41,20 @@ const App = () => {
     setIsAuthenticated(false);
   };
 
+  const toggleIsDark = () => {
+    localStorage.setItem('isDark', isDark ? 'false' : 'true');
+    setIsDark(!isDark);
+  };
+
   return (
-    <ChakraProvider theme={theme}>
+    <ChakraProvider theme={isDark ? darkTheme : lightTheme}>
       <ApolloProvider client={client}>
         <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
-          <DeviceContext.Provider value={{ isMobile }}>
-            <HomePage />
-          </DeviceContext.Provider>
+          <ColorModeContext.Provider value={{ isDark, toggleIsDark }}>
+            <DeviceContext.Provider value={{ isMobile }}>
+              <HomePage />
+            </DeviceContext.Provider>
+          </ColorModeContext.Provider>
         </AuthContext.Provider>
       </ApolloProvider>
     </ChakraProvider>

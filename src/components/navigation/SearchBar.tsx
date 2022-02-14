@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   CloseButton,
   Icon,
@@ -9,11 +9,15 @@ import {
 } from '@chakra-ui/react';
 import { MdSearch } from 'react-icons/md';
 
+import ColorModeContext from '../../contexts/ColorModeContext';
+
 export type SearchBarProps = {
   handleSearch: (searchInput: string) => void;
 };
 
 const SearchBar = ({ handleSearch }: SearchBarProps) => {
+  const { isDark } = useContext(ColorModeContext);
+
   const [input, setInput] = useState<string>('');
 
   const handleChange = (searchInput: string) => {
@@ -29,19 +33,25 @@ const SearchBar = ({ handleSearch }: SearchBarProps) => {
   return (
     <InputGroup>
       <InputLeftElement>
-        <Icon aria-label="Search" as={MdSearch} />
+        <Icon aria-label="Search" as={MdSearch} title="Search" />
       </InputLeftElement>
       <Input
         aria-label="Search"
-        borderColor="white.100"
-        focusBorderColor="white.100"
+        borderColor={isDark ? 'white.100' : 'purple.300'}
+        focusBorderColor={isDark ? 'white.100' : 'purple.300'}
         onChange={(e) => handleChange(e.target.value)}
         onClick={(e) => e.stopPropagation()}
+        title="Search"
+        type="text"
         value={input}
         width="200px"
       />
       <InputRightElement>
-        <CloseButton aria-label="Clear search" onClick={handleClear} />
+        <CloseButton
+          aria-label="Clear search"
+          onClick={handleClear}
+          title="Clear"
+        />
       </InputRightElement>
     </InputGroup>
   );

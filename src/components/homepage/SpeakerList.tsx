@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Flex, Heading, Icon, Image, Text } from '@chakra-ui/react';
 import { FaUser } from 'react-icons/fa';
 
 import { TSpeaker } from '../../api/queries/EventQueries';
+
+import ColorModeContext from '../../contexts/ColorModeContext';
 
 export type SpeakerListProps = {
   eventId: number;
@@ -10,6 +12,8 @@ export type SpeakerListProps = {
 };
 
 const SpeakerList = ({ eventId, speakers }: SpeakerListProps) => {
+  const { isDark } = useContext(ColorModeContext);
+
   return speakers.length > 0 ? (
     <Flex direction="column">
       <Heading as="h3" margin="20px 0px 10px 0px" size="md">
@@ -36,9 +40,9 @@ const SpeakerList = ({ eventId, speakers }: SpeakerListProps) => {
               ) : (
                 <Flex
                   align="flex-end"
-                  backgroundColor="blue.100"
+                  backgroundColor={isDark ? 'blue.100' : 'purple.300'}
                   borderRadius="full"
-                  color="blue.200"
+                  color={isDark ? 'blue.200' : 'purple.50'}
                   height="50px"
                   justify="center"
                   width="50px"
