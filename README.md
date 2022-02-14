@@ -2,7 +2,9 @@
 
 🌎 Hackathon Global web app for Hack the North's 2022 Frontend Developer Challenge.
 
-<img width="1781" alt="web-app" src="https://user-images.githubusercontent.com/49915445/153736982-d65c6f84-9be6-4e65-95df-a5f4e5370519.png">
+<img width="1737" alt="web-app-light" src="https://user-images.githubusercontent.com/49915445/153936139-a72c3755-3c9e-49e1-874c-7c632672a11c.png">
+
+<img width="1737" alt="web-app-dark" src="https://user-images.githubusercontent.com/49915445/153936382-487a94e3-0fec-4628-97e8-2b49652883b0.png">
 
 ## Getting started
 
