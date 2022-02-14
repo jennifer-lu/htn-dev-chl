@@ -67,9 +67,11 @@ Linters: ESLint, Prettier
 ├── prettier.config.js
 ├── public
 │   ├── images                       # Image assets
-│   │   ├── earth-background.png
+│   │   ├── earth-background-dark.png
+│   │   ├── earth-background-light.png
 │   │   ├── earth-icon.png
-│   │   └── earth-modal.png
+│   │   ├── earth-modal-dark.png
+│   │   └── earth-modal-light.png
 │   ├── index.html
 │   ├── manifest.json
 │   └── robots.txt
@@ -88,6 +90,7 @@ Linters: ESLint, Prettier
 │   │   │   ├── SpeakerList.tsx
 │   │   │   └── WelcomeModal.tsx
 │   │   ├── navigation
+│   │   │   ├── ColorModeComponent.tsx
 │   │   │   ├── LoginComponent.tsx
 │   │   │   ├── NavigationBar.tsx
 │   │   │   ├── NavigationMenu.tsx
@@ -96,6 +99,7 @@ Linters: ESLint, Prettier
 │   │       └── HomePage.tsx
 │   ├── contexts                     # Contexts
 │   │   ├── AuthContext.ts
+│   │   ├── ColorModeContext.ts
 │   │   └── DeviceContext.ts
 │   ├── index.tsx
 │   ├── react-app-env.d.ts
@@ -106,7 +110,8 @@ Linters: ESLint, Prettier
 │       ├── components
 │       │   ├── Button.ts
 │       │   └── Heading.ts
-│       └── theme.ts
+│       ├── darkTheme.ts
+│       └── lightTheme.ts
 ├── tsconfig.json
 └── yarn.lock
 ```
