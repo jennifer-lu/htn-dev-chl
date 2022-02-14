@@ -16,7 +16,7 @@ Verify yarn is installed:
 yarn --version
 ```
 
-[Instructions for installing yarn](https://classic.yarnpkg.com/lang/en/docs/install)
+If yarn is not installed, please see [instructions for installing yarn](https://classic.yarnpkg.com/lang/en/docs/install).
 
 ### Run the application
 
@@ -66,7 +66,7 @@ Linters: ESLint, Prettier
 ├── package.json
 ├── prettier.config.js
 ├── public
-│   ├── images                       # Image assets
+│   ├── images                          # Image assets
 │   │   ├── earth-background-dark.png
 │   │   ├── earth-background-light.png
 │   │   ├── earth-icon.png
@@ -77,11 +77,11 @@ Linters: ESLint, Prettier
 │   └── robots.txt
 ├── src
 │   ├── App.tsx
-│   ├── api                          # API
+│   ├── api                             # API
 │   │   ├── ApiClient.ts
 │   │   └── queries
 │   │       └── EventQueries.ts
-│   ├── components                   # Components
+│   ├── components                      # Components
 │   │   ├── homepage
 │   │   │   ├── EventCard.tsx
 │   │   │   ├── Footer.tsx
@@ -97,7 +97,7 @@ Linters: ESLint, Prettier
 │   │   │   └── SearchBar.tsx
 │   │   └── pages
 │   │       └── HomePage.tsx
-│   ├── contexts                     # Contexts
+│   ├── contexts                        # Contexts
 │   │   ├── AuthContext.ts
 │   │   ├── ColorModeContext.ts
 │   │   └── DeviceContext.ts
@@ -105,7 +105,7 @@ Linters: ESLint, Prettier
 │   ├── react-app-env.d.ts
 │   ├── reportWebVitals.ts
 │   ├── setupTests.ts
-│   └── theme                        # Styling
+│   └── theme                           # Styling
 │       ├── colors.ts
 │       ├── components
 │       │   ├── Button.ts
